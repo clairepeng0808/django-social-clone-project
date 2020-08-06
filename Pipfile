@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+django = "*"
+django-bootstrap4 = "*"
+django-crispy-forms = "*"
+misaka = "*"
+django-misaka = "*"
+pylint = "*"
+pylint-django = "*"
+django-braces = "*"
+django-debug-toolbar = "*"
+
+[requires]
+python_version = "3.8"

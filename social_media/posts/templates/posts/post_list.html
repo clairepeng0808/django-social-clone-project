@@ -1,0 +1,38 @@
+{% extends 'posts/post_base.html' %}
+
+{% block title %}Post Lists{% endblock %}
+
+{% block pre_post %}
+<div class='pre-post'>
+    {% if user.is_authenticated %}
+    <a class='btn btn-primary' href="{% url 'posts:create' %}">Create New Post</a>
+    <h1 class='page-title'>Your Groups</h1>
+
+    {% for group in user_groups %}
+    <div class='group-list card card-body'>
+        <h2 class='group-list-title'>
+            <a href=" {% url 'groups:detail' slug=group.slug %}">{{ group.name }}</a>
+        </h2>
+        <p class='group-list-description'> {{ group.description|truncatewords:200 }}</p>
+    </div>
+    {% endfor %}
+
+    <h1 class='page-title'>All Groups</h1>
+    {% for group in other_groups %}
+    <div class='group-list card card-body'>
+        <h2 class='group-list-title'>
+            <a href=" {% url 'groups:detail' slug=group.slug %}">{{ group.name }}</a>
+        </h2>
+        <p class='group-list-description'> {{ group.description|truncatewords:200 }}</p>
+    </div>
+    {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block group_content %}
+{% for post in group.posts.all %}
+{% include 'posts/_post.html' %}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'groups/group_base.html' %}
+
+{% block title %}Group Details{% endblock %}
+
+{% block pre_group %}
+<h1 class='page-title'>{{ group.name }}</h1>
+<h4 class='member-count'>{{ group.members.count}} member{{ group.members.count|pluralize }}</h4>
+<div class="content">
+    {% if user in group.members.all %}
+    <a type='button' class='btn btn-warning' href="{% url 'groups:leave' slug=group.slug %} "><span
+            class='glyphicon glyphicon-remove-circle'>Leave</span></a>
+
+    {% else %}
+    <a type='button' class='btn btn-primary' href="{% url 'groups:join' slug=group.slug %}"><span
+            class='glyphicon glyphicon-ok-circle'>Join</span></a>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block group_content %}
+<div class='group-detail'>
+
+    {% if group.posts.count == 0 %}
+    <h2>No posts in this group yet!</h2>
+
+    {% else %}
+    {% for post in group.posts.all %}
+    {% include 'posts/_post.html' %}
+    {# _post.html: means its supposed to be injected into other html files #}
+    {% endfor %}
+
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block post_group %}{% endblock %}

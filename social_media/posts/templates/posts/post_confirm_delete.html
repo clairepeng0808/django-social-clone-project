@@ -1,0 +1,20 @@
+{% extends 'posts/post_base.html' %}
+{% block title %}Delete Post{% endblock %}
+
+{% block content %}
+<div class='container'>
+    <h5>Are you sure you want to delete the post?</h5>
+
+    <div clsss='single-post'>
+        {% include "posts/_post.html" with post=object hide_delete=True %}
+    </div>
+
+    <div class='delete-post-title'>
+        <form method="POST" action="{% url 'posts:delete' pk=post.pk %}">
+            {% csrf_token %}
+            <button type="submit" class='btn btn-danger'>Delete</button>
+            <a class='btn btn-simple' href="{% url 'groups:detail' slug=post.group.slug %}">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

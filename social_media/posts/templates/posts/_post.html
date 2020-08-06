@@ -1,0 +1,15 @@
+<div class='card card-body post-body'>
+    <div class='post-username'>
+        <a href="{% url 'posts:user_post' username=post.user.username %}">{{ post.user.username }}</a>
+    </div>
+    <div class='post-timestamp'>
+        <time>{{ post.created_at |date:"M Y"  }}</time>
+    </div>
+    <p>{{ post.message_html | safe }}</p>
+
+    <div class='footer'>
+        {% if user.is_authenticated and post.user == user %}
+        <a class='delete' href="{% url 'posts:delete' pk=post.pk %}">Delete</a>
+        {% endif %}
+    </div>
+</div>

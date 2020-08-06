@@ -1,0 +1,71 @@
+h1.page-title {
+  margin: 30px 0 15px 0;
+  color: #07beb8;
+}
+.signup-form {
+  margin: 20px 0;
+}
+
+.signup-form .label {
+  color: #555b6e;
+}
+
+.btn-primary {
+  background-color: #07beb8;
+  border-color: #07beb8;
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.open > .dropdown-toggle.btn-primary {
+  background-color: #2ec4b6;
+  border-color: #2ec4b6;
+}
+
+.content {
+  margin-top: 30px;
+}
+
+.group-list,
+.post-body {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.group-list-description {
+  margin-top: 15px;
+}
+
+.group-list-title a {
+  color: #05668d;
+}
+
+.group-list-title ::after {
+  color: #05668d;
+}
+
+.post-username a {
+  color: #9c89b8;
+}
+
+.post-timestamp {
+  color: grey;
+  font-size: 12px;
+}
+.member-count {
+  color: grey;
+}
+
+.delete {
+  color: #ffa69e;
+}
+
+.delete:hover {
+  color: #f94144;
+}
+
+.group-list-footer {
+  color: grey;
+}
