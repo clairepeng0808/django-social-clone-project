@@ -5,7 +5,6 @@ from  django.utils import timezone
 import misaka
 from groups.models import Group
 
-
 from django.contrib.auth import get_user_model
 User = get_user_model()
 

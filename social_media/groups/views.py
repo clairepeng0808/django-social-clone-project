@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.views import generic
 from . import models
 from . import forms
-from braces.views import SelectRelatedMixin
+from braces.views import SelectRelatedMixin,PrefetchRelatedMixin
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.db import IntegrityError
@@ -18,11 +18,14 @@ class CreateGroup(LoginRequiredMixin,generic.CreateView):
     form_class = forms.GroupForm
     template_name = 'groups/group_form.html'
 
-class GroupDetail(generic.DetailView):
+class GroupDetail(PrefetchRelatedMixin,generic.DetailView):
     model = models.Group
+    prefetch_related = ('members','posts')
 
-class GroupList(generic.ListView):
+class GroupList(PrefetchRelatedMixin,generic.ListView):
     model = models.Group
+    prefetch_related = ('members','posts')
+    
 
 class JoinGroup(LoginRequiredMixin,generic.RedirectView):
     

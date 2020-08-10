@@ -38,12 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'groups',
-    'accounts',
+    'debug_toolbar',
     'bootstrap4',
     'crispy_forms',
-    'posts',
     'misaka',
+    'groups',
+    'accounts',
+    'posts', 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -56,6 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'social_media.urls'
@@ -135,3 +137,5 @@ STATICFILES_DIRS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = 'thanks'
+
+INTERNAL_IPS = ['127.0.0.1']

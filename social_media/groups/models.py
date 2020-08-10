@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+
+
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -14,7 +16,7 @@ class Group(models.Model):
     slug = models.SlugField(allow_unicode=True,unique=True)
     description = models.TextField(blank=True,default='')
     members = models.ManyToManyField(User,through='GroupMembership')
-
+    
     class Meta:
         unique_together = ('name','members')
 
