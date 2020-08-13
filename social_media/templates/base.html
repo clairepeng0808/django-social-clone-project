@@ -73,6 +73,8 @@
                         {{ user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'groups:user_group' username=user.username %}">My
+                            Groups</a>
                         <a class="dropdown-item" href="#">My Posts</a>
                         <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
                     </div>
