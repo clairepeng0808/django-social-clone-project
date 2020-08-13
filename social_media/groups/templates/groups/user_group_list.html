@@ -14,13 +14,24 @@
 {% block group_content %}
 
 {% for group in user_group_list %}
-<div class='group-list card card-body'>
+<div class='group-list'>
     <h2 class='group-list-title'>
         <a href=" {% url 'groups:detail' slug=group.slug %}">{{ group.name }}</a>
     </h2>
     <p class='group-list-description'> {{ group.description|truncatewords:200 }}</p>
+    <div class='row'>
+        <div class="col-md-2  group-list-footer">
+            <span class='badge'>{{ group.members.count }}</span>
+            member{{ group.members.count|pluralize }}
+        </div>
+
+        <div class="col-md-2 group-list-footer">
+            <span class='badge'>{{ group.posts.count }}</span>
+            post{{ group.posts.count|pluralize }}
+        </div>
+    </div>
+    <hr>
 </div>
-<hr>
 {% endfor %}
 
 {% endblock %}

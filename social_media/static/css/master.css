@@ -69,3 +69,13 @@ h1.page-title {
 .group-list-footer {
   color: grey;
 }
+
+.toast-success {
+  background-color: #07beb8;
+  color: white;
+}
+
+.toast-warning {
+  background-color: orange;
+  color: white;
+}
