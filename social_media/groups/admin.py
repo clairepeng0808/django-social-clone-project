@@ -5,9 +5,11 @@ from . import models
 class GroupMemberInline(admin.TabularInline):
     model = models.GroupMembership
     extra = 1
+    # The default is extra = 3
 
+# Customize your admin page
 class GroupAdmin(admin.ModelAdmin):
-    fields = ['description','name','slug']
+    fields = ['description','name','slug'] #adjust ordering
     search_fields = ['name','description']
     list_filter = ['members']
     list_display = ['name','slug','description']

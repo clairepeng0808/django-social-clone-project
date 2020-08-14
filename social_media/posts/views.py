@@ -3,6 +3,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.http import Http404
+from django.shortcuts import get_object_or_404
+
 from braces.views import SelectRelatedMixin
 from . import models
 from . import forms
@@ -35,9 +37,11 @@ class UserPostList(LoginRequiredMixin,SelectRelatedMixin,generic.ListView):
         return super().get_queryset().filter(user__username__iexact=self.request.user.username)
         # use "self.request.user.username" if it's login required
 
-    # def get_queryset(self):
+    def get_queryset(self):
+
+        user = get_object_or_404(User,user__username__iexact=self.request.user.username)
     #     try: 
-    #         # try to get the posts of the logged-in user
+    #         # try to check if the user exists
     #         self.post_user = User.objects.prefetch_related('posts').get(
     #             username__iexact=self.kwargs.get('username')
     #             )

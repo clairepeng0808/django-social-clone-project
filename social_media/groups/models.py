@@ -13,24 +13,23 @@ class Group(models.Model):
     members = models.ManyToManyField(User,through='GroupMembership')
     
     class Meta:
-        unique_together = ('name','members')
+        ordering = ['name']
 
     def __str__(self):
         return self.name
     
     def save(self,*arg,**kwargs):
         self.slug = slugify(self.name)
+        # /claire peng --> /claire-peng
         super().save(*arg,**kwargs)
     
     def get_absolute_url(self):
         return reverse('groups:detail', kwargs={'slug':self.slug})
-    
-    class Meta:
-        ordering = ['name']
+        
 
 class GroupMembership(models.Model):
     group = models.ForeignKey(Group,related_name='membership',on_delete=models.CASCADE)
-    user = models.ForeignKey(User,related_name='user_group',on_delete=models.CASCADE)
+    user = models.ForeignKey(User,related_name='membership',on_delete=models.CASCADE)
 
     def __str__(self):
         return self.user.username

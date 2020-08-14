@@ -8,6 +8,7 @@ from django.contrib.auth.views import LoginView
 class SignUp(CreateView):
     form_class = forms.UserCreateForm
     template_name = 'registration/signup.html'
+    # success_url = reverse_lazy('accounts:login') 
 
     def get_success_url(self):
         return reverse_lazy('accounts:login') 

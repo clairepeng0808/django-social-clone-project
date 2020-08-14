@@ -70,7 +70,7 @@
                         {{ user.username }}
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="{% url 'groups:user_group' username=user.username %}">My
+                        <a class="dropdown-item" href="{% url 'groups:mygroup' %}">My
                             Groups</a>
                         <a class="dropdown-item" href="#">My Posts</a>
                         <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
@@ -90,7 +90,7 @@
 
     <!-- Content -->
 
-    <div class='content container-fluid'>
+    <div class='container-fluid content'>
         <div class='messages'>
             {% if messages %}
             {% for message in messages %}

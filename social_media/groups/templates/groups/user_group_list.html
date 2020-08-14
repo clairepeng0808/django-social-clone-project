@@ -12,8 +12,7 @@
 {% endblock %}
 
 {% block group_content %}
-
-{% for group in user_group_list %}
+{% for group in mygroups %}
 <div class='group-list'>
     <h2 class='group-list-title'>
         <a href=" {% url 'groups:detail' slug=group.slug %}">{{ group.name }}</a>
@@ -24,7 +23,6 @@
             <span class='badge'>{{ group.members.count }}</span>
             member{{ group.members.count|pluralize }}
         </div>
-
         <div class="col-md-2 group-list-footer">
             <span class='badge'>{{ group.posts.count }}</span>
             post{{ group.posts.count|pluralize }}
@@ -33,7 +31,6 @@
     <hr>
 </div>
 {% endfor %}
-
 {% endblock %}
 
 {% block post_group %}{% endblock %}

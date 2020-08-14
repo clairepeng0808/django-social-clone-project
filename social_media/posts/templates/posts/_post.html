@@ -3,7 +3,7 @@
         <a href="{% url 'posts:user_post' username=post.user.username %}">{{ post.user.username }}</a>
     </div>
     <div class='post-timestamp'>
-        <time>{{ post.created_at |date:"M Y"  }}</time>
+        <time>{{ post.created_at | date:"M Y"  }}</time>
     </div>
     <p>{{ post.message_html | safe }}</p>
 
