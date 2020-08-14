@@ -23,8 +23,9 @@ class CreateGroup(LoginRequiredMixin,generic.CreateView):
 
 class UserGroupList(LoginRequiredMixin,PrefetchRelatedMixin,generic.ListView):
     # groups belonging to an user
+
     prefetch_related = ('members','posts')
-    template_name = 'groups/user_group_list.html'
+    template_name = 'groups/mygroups.html'
     context_object_name = 'mygroups'
     
     def get_queryset(self):
