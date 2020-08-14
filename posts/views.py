@@ -21,7 +21,6 @@ class PostList(SelectRelatedMixin,generic.ListView):
     model = models.Post
     select_related = ('user','group')
 
-    # todo: https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/learn/lecture/7133892#questions/3081816
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_groups'] = models.Group.objects.filter(members__in=[self.request.user])

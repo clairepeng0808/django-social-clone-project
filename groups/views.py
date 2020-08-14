@@ -23,14 +23,13 @@ class CreateGroup(LoginRequiredMixin,generic.CreateView):
 
 class UserGroupList(LoginRequiredMixin,PrefetchRelatedMixin,generic.ListView):
     # groups belonging to an user
-
-    prefetch_related = ('members','posts')
+    model = models.Group
+    prefetch_related = ('members','posts',)
     template_name = 'groups/mygroups.html'
     context_object_name = 'mygroups'
     
     def get_queryset(self):
-        return models.Group.objects.filter(members__username__iexact=self.request.user)
-
+        return super().get_queryset().filter(members__username__iexact=self.request.user)
 
 class GroupDetail(PrefetchRelatedMixin,generic.DetailView):
     model = models.Group

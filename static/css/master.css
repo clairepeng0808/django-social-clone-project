@@ -79,3 +79,9 @@ h1.page-title {
   background-color: orange;
   color: white;
 }
+
+.post-groupname a {
+  color: #05668d;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

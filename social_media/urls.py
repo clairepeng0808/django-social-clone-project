@@ -20,12 +20,10 @@ from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.HomePage.as_view(),name='home'),
+    path('', include('posts.urls',namespace='posts')), 
     path('accounts/', include('accounts.urls',namespace='accounts')), 
     path('accounts/', include('django.contrib.auth.urls')), 
     path('groups/', include('groups.urls',namespace='groups')), 
-    path('posts/', include('posts.urls',namespace='posts')), 
-    path('thanks/', views.ThankYou.as_view(),name='thanks'),  
 ]
 
 if settings.DEBUG:
