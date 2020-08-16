@@ -3,9 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.http import Http404
-from django.shortcuts import get_object_or_404,redirect
+from django.shortcuts import get_object_or_404
 
-from braces.views import SelectRelatedMixin,PrefetchRelatedMixin
+from braces.views import SelectRelatedMixin
 from . import models
 from . import forms
 from django.contrib import messages
@@ -21,6 +21,7 @@ class PostList(SelectRelatedMixin,generic.ListView):
     model = models.Post
     select_related = ('user','group')
 
+    # todo: https://www.udemy.com/course/python-and-django-full-stack-web-developer-bootcamp/learn/lecture/7133892#questions/3081816
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user_groups'] = models.Group.objects.filter(members__in=[self.request.user])
@@ -28,29 +29,32 @@ class PostList(SelectRelatedMixin,generic.ListView):
         return context
 
 class UserPostList(LoginRequiredMixin,SelectRelatedMixin,generic.ListView):
-    # posts belonging to one user
+    # posts belonging to an user
     model = models.Post
     select_related = ('user','group')
-    template_name = 'posts/user_post_list.html'
-    context_object_name = 'user_post_list'
 
-    def get(self, request, *args, **kwargs):
-        post = self.get_queryset()
-        # try:
-        #     post_user = User.objects.get(
-        #         username__iexact=self.kwargs.get('username')
-        #     )         
-        # except User.DoesNotExist:
-        #     return redirect('posts:list')
-        #     messages.warning(request,'You are already a member!')
-        if not post:
-            return redirect('posts:list')
-        return super().get(request,*args,**kwargs)
+    # def get_queryset(self):
+    #     return super().get_queryset().filter(user__username__iexact=self.request.user.username)
+    #     # use "self.request.user.username" if it's login required
 
+    # def get_queryset(self):
 
-    def get_queryset(self):
-        self.post_user = User.objects.get(username__iexact=self.kwargs.get('username'))
-        return self.post_user.posts.all()
+    #     try: 
+    #         # try to check if the user exists
+    #         self.post_user = User.objects.prefetch_related('posts').get(
+    #             username__iexact=self.kwargs.get('username')
+    #             )
+
+    #     except User.DoesNotExist:
+    #         raise Http404
+
+    #     else:
+    #         return self.post_user.posts.all
+    
+    # def get_context_data(self,**kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["post_user"] = self.post_user
+    #     return context
 
 class PostDetail(SelectRelatedMixin,generic.DetailView):
     model = models.Post
@@ -82,7 +86,7 @@ class DeletePost(LoginRequiredMixin,SelectRelatedMixin,generic.DeleteView):
     select_related = ('user','group')
     
     def get_queryset(self):
-        return super().get_queryset().filter(user=self.request.user)
+        return super().get_queryset().filter(user__username=self.request.user.username)
         # use "self.request.user.username" if it's login required
     
     def delete(self, request, *args, **kwargs):

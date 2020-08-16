@@ -11,6 +11,8 @@ from braces.views import SelectRelatedMixin,PrefetchRelatedMixin
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.db import IntegrityError
+from django.core.exceptions import ObjectDoesNotExist
+
 
 from django.contrib.auth import get_user_model
 User = get_user_model()
@@ -49,15 +51,19 @@ class JoinGroup(LoginRequiredMixin,generic.RedirectView):
 
     # Make sure the group exists
     def get(self, request, *args, **kwargs):
-
-        group = get_object_or_404(models.Group,slug=kwargs.get('slug'))
         
+        group = get_object_or_404(models.Group,slug=kwargs.get('slug'))
+    
         try:
-            models.GroupMembership.objects.create(user=request.user,group=group)    
+            models.GroupMembership.objects.create(
+                user=request.user,
+                group=group
+            )
         except IntegrityError:
             messages.warning(request,'You are already a member!')
         else:
             messages.success(request,'Joined the group!')    
+        
         return super().get(request,*args,**kwargs)
 
 class LeaveGroup(LoginRequiredMixin,generic.RedirectView):
@@ -69,12 +75,10 @@ class LeaveGroup(LoginRequiredMixin,generic.RedirectView):
     # Make sure the group exists
     def get(self, request, *args, **kwargs):
 
-        group = get_object_or_404(models.Group,slug=kwargs.get('slug'))
-        
         try:
-            membership = models.GroupMembership.objects.filter(
-            user=request.user,
-            group=group
+            membership = models.GroupMembership.objects.get(
+            user= self.request.user,
+            group__slug=self.kwargs.get('slug')
             )
 
         except models.GroupMembership.DoesNotExist:
