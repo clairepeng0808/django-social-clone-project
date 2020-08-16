@@ -23,8 +23,8 @@ class PostList(SelectRelatedMixin,generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['user_groups'] = models.Group.objects.filter(members__in=[self.request.user])
-        context['other_groups'] = models.Group.objects.exclude(members__in=[self.request.user])
+        # context['user_groups'] = models.Group.objects.filter(members__in=[self.request.user])
+        # context['other_groups'] = models.Group.objects.exclude(members__in=[self.request.user])
         return context
 
 class UserPostList(LoginRequiredMixin,SelectRelatedMixin,generic.ListView):
@@ -34,30 +34,23 @@ class UserPostList(LoginRequiredMixin,SelectRelatedMixin,generic.ListView):
     template_name = 'posts/user_post_list.html'
     context_object_name = 'user_post_list'
 
-    def get(self, request, *args, **kwargs):
-        post = self.get_queryset()
-        # try:
-        #     post_user = User.objects.get(
-        #         username__iexact=self.kwargs.get('username')
-        #     )         
-        # except User.DoesNotExist:
-        #     return redirect('posts:list')
-        #     messages.warning(request,'You are already a member!')
-        if not post:
-            return redirect('posts:list')
-        return super().get(request,*args,**kwargs)
-
-
     def get_queryset(self):
-        self.post_user = User.objects.get(username__iexact=self.kwargs.get('username'))
-        return self.post_user.posts.all()
+        post_user = get_object_or_404(User,username=self.kwargs.get('username'))
+        qs = super().get_queryset()
+        return qs.filter(user__username=post_user.username)
 
-class PostDetail(SelectRelatedMixin,generic.DetailView):
-    model = models.Post
-    select_related = ('user','group')
+    # if you want to redirect when the object doesnot exist
+    # def get(self, request, *args, **kwargs):
+        
+    #     post_user = self.get_queryset()
+        
+    #     if not post_user:
+    #         messages.warning(request,'The member does not exist')
+    #         return redirect('posts:list')
+        
+    #     return super().get(request,*args,**kwargs)
 
-    def get_queryset(self):
-        return super().get_queryset().filter(user__username__iexact=self.kwargs.get('username'))
+    
 
 class CreatPost(SelectRelatedMixin,LoginRequiredMixin,generic.CreateView):
     model = models.Post
@@ -82,7 +75,7 @@ class DeletePost(LoginRequiredMixin,SelectRelatedMixin,generic.DeleteView):
     select_related = ('user','group')
     
     def get_queryset(self):
-        return super().get_queryset().filter(user=self.request.user)
+        return super().get_queryset().filter(user__username__iexact=self.request.user.username)
         # use "self.request.user.username" if it's login required
     
     def delete(self, request, *args, **kwargs):

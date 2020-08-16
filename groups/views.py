@@ -8,9 +8,10 @@ from django.views import generic
 from . import models
 from . import forms
 from braces.views import SelectRelatedMixin,PrefetchRelatedMixin
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,redirect
 from django.contrib import messages
 from django.db import IntegrityError
+from django.http import Http404
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -48,10 +49,11 @@ class JoinGroup(LoginRequiredMixin,generic.RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         return reverse('groups:detail',kwargs={'slug':kwargs.get('slug')})
         # use .get when you want to get only one object
+        
 
     # Make sure the group exists
     def get(self, request, *args, **kwargs):
-        
+
         group = get_object_or_404(models.Group,slug=kwargs.get('slug'))
     
         try:
@@ -59,8 +61,10 @@ class JoinGroup(LoginRequiredMixin,generic.RedirectView):
                 user=request.user,
                 group=group
             )
+
         except IntegrityError:
             messages.warning(request,'You are already a member!')
+        
         else:
             messages.success(request,'Joined the group!')    
         

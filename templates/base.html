@@ -72,7 +72,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'groups:mygroups' %}">My
                             Groups</a>
-                        <a class="dropdown-item" href="#">My Posts</a>
+                        <a class="dropdown-item" href="{% url 'posts:user_post' username=user.username %}">My Posts</a>
                         <a class="dropdown-item" href="{% url 'accounts:logout' %}">Logout</a>
                     </div>
                 </li>
